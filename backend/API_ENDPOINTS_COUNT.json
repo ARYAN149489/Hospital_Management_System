@@ -1,0 +1,716 @@
+{
+  "totalEndpoints": 113,
+  "byMethod": {
+    "GET": 59,
+    "POST": 23,
+    "PUT": 7,
+    "PATCH": 15,
+    "DELETE": 9
+  },
+  "byFile": {
+    "adminDashboard.routes.js": 9,
+    "adminDepartment.routes.js": 7,
+    "adminLabTest.routes.js": 4,
+    "adminUserManagement.routes.js": 18,
+    "appointment.routes.js": 7,
+    "auth.routes.js": 11,
+    "chatbot.routes.js": 2,
+    "department.routes.js": 3,
+    "doctor.routes.js": 7,
+    "doctorDashboard.routes.js": 15,
+    "leave.routes.js": 6,
+    "notification.routes.js": 9,
+    "patient.routes.js": 9,
+    "prescription.routes.js": 6
+  },
+  "allEndpoints": {
+    "GET": [
+      {
+        "method": "GET",
+        "path": "/profile",
+        "file": "adminDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/dashboard",
+        "file": "adminDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/stats",
+        "file": "adminDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/statistics",
+        "file": "adminDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/appointments",
+        "file": "adminDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/recent-activity",
+        "file": "adminDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/system-health",
+        "file": "adminDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/",
+        "file": "adminDepartment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/:id",
+        "file": "adminDepartment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/",
+        "file": "adminLabTest.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/:id",
+        "file": "adminLabTest.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/users",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/users/:id",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/doctors",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/leaves",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/patients",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/patients/:id",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/patients/:id/appointments",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/patients/:id/prescriptions",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/my-appointments",
+        "file": "appointment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/:id",
+        "file": "appointment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/available-slots/:doctorId",
+        "file": "appointment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/me",
+        "file": "auth.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/profile",
+        "file": "auth.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/verify-email/:token",
+        "file": "auth.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/",
+        "file": "department.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/:id",
+        "file": "department.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/search",
+        "file": "department.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/",
+        "file": "doctor.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/search",
+        "file": "doctor.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/top-rated",
+        "file": "doctor.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/specialization/:specialization",
+        "file": "doctor.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/department/:departmentId",
+        "file": "doctor.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/:id",
+        "file": "doctor.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/:id/availability",
+        "file": "doctor.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/profile",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/dashboard",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/appointments",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/appointments/:id",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/patients",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/patients/:patientId",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/schedule",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/blocked-slots",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/prescriptions",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/my-leaves",
+        "file": "leave.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/statistics",
+        "file": "leave.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/:id",
+        "file": "leave.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/",
+        "file": "notification.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/unread-count",
+        "file": "notification.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/unread/count",
+        "file": "notification.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/:id",
+        "file": "notification.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/profile",
+        "file": "patient.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/dashboard",
+        "file": "patient.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/medical-records",
+        "file": "patient.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/prescriptions",
+        "file": "patient.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/lab-tests",
+        "file": "patient.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/appointments/history",
+        "file": "patient.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/doctor/my-prescriptions",
+        "file": "prescription.routes.js",
+        "description": ""
+      },
+      {
+        "method": "GET",
+        "path": "/:id",
+        "file": "prescription.routes.js",
+        "description": ""
+      }
+    ],
+    "POST": [
+      {
+        "method": "POST",
+        "path": "/log-activity",
+        "file": "adminDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/",
+        "file": "adminDepartment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/doctors/create",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/doctors/:id/block",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/doctors/:id/unblock",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/",
+        "file": "appointment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/register",
+        "file": "auth.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/login",
+        "file": "auth.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/logout",
+        "file": "auth.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/forgot-password",
+        "file": "auth.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/reset-password",
+        "file": "auth.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/change-password",
+        "file": "auth.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/refresh-token",
+        "file": "auth.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/google",
+        "file": "auth.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/message",
+        "file": "chatbot.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/detect-language",
+        "file": "chatbot.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/block-slot",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/prescriptions",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/",
+        "file": "leave.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/",
+        "file": "notification.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/medical-records",
+        "file": "patient.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/lab-tests/book",
+        "file": "patient.routes.js",
+        "description": ""
+      },
+      {
+        "method": "POST",
+        "path": "/",
+        "file": "prescription.routes.js",
+        "description": ""
+      }
+    ],
+    "PUT": [
+      {
+        "method": "PUT",
+        "path": "/profile",
+        "file": "adminDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PUT",
+        "path": "/:id",
+        "file": "adminDepartment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PUT",
+        "path": "/profile",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PUT",
+        "path": "/schedule",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PUT",
+        "path": "/:id",
+        "file": "leave.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PUT",
+        "path": "/profile",
+        "file": "patient.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PUT",
+        "path": "/:id",
+        "file": "prescription.routes.js",
+        "description": ""
+      }
+    ],
+    "PATCH": [
+      {
+        "method": "PATCH",
+        "path": "/:id/status",
+        "file": "adminDepartment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/:id/beds",
+        "file": "adminDepartment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/:id/result",
+        "file": "adminLabTest.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/:id/status",
+        "file": "adminLabTest.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/users/:id/status",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/doctors/:id/approval",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/doctors/:id/suspend",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/leaves/:id/approval",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/:id/cancel",
+        "file": "appointment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/:id/reschedule",
+        "file": "appointment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/:id/rate",
+        "file": "appointment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/appointments/:id/status",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/mark-all-read",
+        "file": "notification.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/:id/read",
+        "file": "notification.routes.js",
+        "description": ""
+      },
+      {
+        "method": "PATCH",
+        "path": "/:id/verify",
+        "file": "prescription.routes.js",
+        "description": ""
+      }
+    ],
+    "DELETE": [
+      {
+        "method": "DELETE",
+        "path": "/:id",
+        "file": "adminDepartment.routes.js",
+        "description": ""
+      },
+      {
+        "method": "DELETE",
+        "path": "/users/:id",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "DELETE",
+        "path": "/doctors/:id",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "DELETE",
+        "path": "/patients/:id",
+        "file": "adminUserManagement.routes.js",
+        "description": ""
+      },
+      {
+        "method": "DELETE",
+        "path": "/blocked-slots/:id",
+        "file": "doctorDashboard.routes.js",
+        "description": ""
+      },
+      {
+        "method": "DELETE",
+        "path": "/:id",
+        "file": "leave.routes.js",
+        "description": ""
+      },
+      {
+        "method": "DELETE",
+        "path": "/clear-read",
+        "file": "notification.routes.js",
+        "description": ""
+      },
+      {
+        "method": "DELETE",
+        "path": "/:id",
+        "file": "notification.routes.js",
+        "description": ""
+      },
+      {
+        "method": "DELETE",
+        "path": "/:id",
+        "file": "prescription.routes.js",
+        "description": ""
+      }
+    ]
+  }
+}

@@ -194,6 +194,14 @@ VITE_GOOGLE_CLIENT_ID=your_google_client_id
       <sub>Full Stack Developer</sub>
     </td>
   </tr>
+   <tr>
+    <td align="center">
+      <sub><b>Kalpana</b></sub><br />
+      <a href="https://github.com/KKKalpana">GitHub</a> •
+      <a href="https://linkedin.com/in/kalpana-kalpana">LinkedIn</a><br />
+      <sub>Full Stack Developer</sub>
+    </td>
+  </tr>
 </table>
 
 ---

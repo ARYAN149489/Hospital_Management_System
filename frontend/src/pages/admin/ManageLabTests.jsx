@@ -143,8 +143,15 @@ export default function ManageLabTests() {
       <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
         <h2 className="headline-sm" style={{ flex: 1 }}>Lab Tests</h2>
         {['all', 'pending', 'processing', 'completed', 'report_ready'].map(f => (
-          <button key={f} onClick={() => setFilter(f)}
-            style={{ padding: '6px 14px', borderRadius: '999px', border: '1.5px solid', borderColor: filter === f ? 'var(--secondary)' : 'var(--outline-var)', background: filter === f ? 'rgba(0,106,106,0.1)' : 'transparent', color: filter === f ? 'var(--secondary)' : 'var(--on-surface-var)', fontWeight: 600, fontSize: '12px', cursor: 'pointer', textTransform: 'capitalize' }}>
+          <button type="button" key={f} onClick={() => setFilter(f)}
+            className="filter-pill"
+            style={{
+              padding: '6px 14px',
+              fontSize: '12px',
+              borderColor: filter === f ? 'var(--secondary)' : 'var(--outline-var)',
+              background: filter === f ? 'rgba(0,106,106,0.1)' : 'transparent',
+              color: filter === f ? 'var(--secondary)' : 'var(--on-surface-var)'
+            }}>
             {f === 'all' ? 'All' : f.replace('_', ' ')}
           </button>
         ))}
@@ -174,17 +181,17 @@ export default function ManageLabTests() {
                     <td>
                       <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
                         {(test.status === 'pending' || test.status === 'booked') && (
-                          <button onClick={() => updateStatus(test._id, 'processing')} disabled={updatingId === test._id} className="btn btn-ghost btn-sm">
+                          <button type="button" onClick={() => updateStatus(test._id, 'processing')} disabled={updatingId === test._id} className="btn btn-ghost btn-sm">
                             → Processing
                           </button>
                         )}
                         {test.status === 'processing' && (
-                          <button onClick={() => updateStatus(test._id, 'completed')} disabled={updatingId === test._id} className="btn btn-ghost btn-sm">
+                          <button type="button" onClick={() => updateStatus(test._id, 'completed')} disabled={updatingId === test._id} className="btn btn-ghost btn-sm">
                             <CheckCircle size={13} /> Complete
                           </button>
                         )}
                         {(test.status === 'processing' || test.status === 'completed' || test.status === 'report_ready') && (
-                          <button onClick={() => openReportModal(test)} className="btn btn-secondary btn-sm" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <button type="button" onClick={() => openReportModal(test)} className="btn btn-secondary btn-sm" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                             {test.status === 'report_ready' ? 'Edit Report' : 'Enter Results'}
                           </button>
                         )}
@@ -225,7 +232,7 @@ export default function ManageLabTests() {
                   Test: <strong>{activeTest.testName}</strong> | Patient: <strong>{activeTest.patient?.user ? `${activeTest.patient.user.firstName} ${activeTest.patient.user.lastName}` : 'Patient'}</strong>
                 </p>
               </div>
-              <button onClick={() => setActiveTest(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--outline)', padding: 4 }}>
+              <button type="button" onClick={() => setActiveTest(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--outline)', padding: 4 }}>
                 <X size={24} />
               </button>
             </div>

@@ -24,8 +24,15 @@ export default function ManageAppointments() {
       <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
         <h2 className="headline-sm" style={{ flex: 1 }}>All Appointments</h2>
         {['all', 'scheduled', 'confirmed', 'completed', 'cancelled'].map(f => (
-          <button key={f} onClick={() => setFilter(f)}
-            style={{ padding: '6px 14px', borderRadius: '999px', border: '1.5px solid', borderColor: filter === f ? 'var(--secondary)' : 'var(--outline-var)', background: filter === f ? 'rgba(0,106,106,0.1)' : 'transparent', color: filter === f ? 'var(--secondary)' : 'var(--on-surface-var)', fontWeight: 600, fontSize: '12px', cursor: 'pointer', textTransform: 'capitalize' }}>
+          <button type="button" key={f} onClick={() => setFilter(f)}
+            className="filter-pill"
+            style={{
+              padding: '6px 14px',
+              fontSize: '12px',
+              borderColor: filter === f ? 'var(--secondary)' : 'var(--outline-var)',
+              background: filter === f ? 'rgba(0,106,106,0.1)' : 'transparent',
+              color: filter === f ? 'var(--secondary)' : 'var(--on-surface-var)'
+            }}>
             {f === 'all' ? 'All' : f}
           </button>
         ))}

@@ -69,11 +69,11 @@ export default function Profile() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
           <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '18px' }}>Personal Information</h3>
           {!editing ? (
-            <button onClick={() => setEditing(true)} className="btn btn-ghost btn-sm"><Edit2 size={15} /> Edit</button>
+            <button type="button" onClick={() => setEditing(true)} className="btn btn-ghost btn-sm"><Edit2 size={15} /> Edit</button>
           ) : (
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={() => setEditing(false)} className="btn btn-ghost btn-sm"><X size={15} /> Cancel</button>
-              <button onClick={handleSave} disabled={loading} className="btn btn-primary btn-sm">
+              <button type="button" onClick={() => setEditing(false)} className="btn btn-ghost btn-sm"><X size={15} /> Cancel</button>
+              <button type="button" onClick={handleSave} disabled={loading} className="btn btn-primary btn-sm">
                 {loading ? <div className="spinner spinner-sm" style={{ borderTopColor: 'white' }} /> : <><Save size={15} /> Save</>}
               </button>
             </div>

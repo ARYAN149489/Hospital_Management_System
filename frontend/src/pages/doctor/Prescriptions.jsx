@@ -36,7 +36,18 @@ export default function DoctorPrescriptions() {
             const isOpen = expanded === rx._id;
             return (
               <div key={rx._id} className="glass-card-sm">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', cursor: 'pointer' }} onClick={() => setExpanded(isOpen ? null : rx._id)}>
+                <div 
+                  role="button"
+                  tabIndex={0}
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', cursor: 'pointer', outline: 'none' }} 
+                  onClick={() => setExpanded(isOpen ? null : rx._id)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setExpanded(isOpen ? null : rx._id);
+                    }
+                  }}
+                >
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <div className="avatar avatar-sm avatar-teal">{patName[0]}</div>
                     <div>

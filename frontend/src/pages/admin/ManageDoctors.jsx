@@ -61,8 +61,13 @@ export default function ManageDoctors() {
       <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', alignItems: 'center', flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', gap: '6px' }}>
           {[['all', 'All Doctors'], ['pending', 'Pending Approval']].map(([t, l]) => (
-            <button key={t} onClick={() => setTab(t)}
-              style={{ padding: '8px 18px', borderRadius: '999px', border: '1.5px solid', borderColor: tab === t ? 'var(--secondary)' : 'var(--outline-var)', background: tab === t ? 'rgba(0,106,106,0.1)' : 'transparent', color: tab === t ? 'var(--secondary)' : 'var(--on-surface-var)', fontWeight: 600, fontSize: '13px', cursor: 'pointer', transition: 'all 0.2s' }}>
+            <button type="button" key={t} onClick={() => setTab(t)}
+              className="filter-pill"
+              style={{
+                borderColor: tab === t ? 'var(--secondary)' : 'var(--outline-var)',
+                background: tab === t ? 'rgba(0,106,106,0.1)' : 'transparent',
+                color: tab === t ? 'var(--secondary)' : 'var(--on-surface-var)'
+              }}>
               {l}{t === 'pending' && pending.length > 0 && <span style={{ marginLeft: '6px', background: '#d97706', color: 'white', borderRadius: '999px', padding: '1px 7px', fontSize: '11px' }}>{pending.length}</span>}
             </button>
           ))}
@@ -118,10 +123,10 @@ export default function ManageDoctors() {
                     {tab === 'pending' && (
                       <td>
                         <div style={{ display: 'flex', gap: '8px' }}>
-                          <button onClick={() => approveDoctor(doc._id)} className="btn btn-secondary btn-sm">
+                          <button type="button" onClick={() => approveDoctor(doc._id)} className="btn btn-secondary btn-sm">
                             <CheckCircle size={13} /> Approve
                           </button>
-                          <button onClick={() => openRejectionModal(doc._id)} className="btn btn-ghost btn-sm" style={{ color: 'var(--error)', borderColor: 'var(--error)' }}>
+                          <button type="button" onClick={() => openRejectionModal(doc._id)} className="btn btn-ghost btn-sm" style={{ color: 'var(--error)', borderColor: 'var(--error)' }}>
                             <XCircle size={13} /> Reject
                           </button>
                         </div>
@@ -176,12 +181,14 @@ export default function ManageDoctors() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '20px' }}>
               <button 
+                type="button"
                 onClick={() => setRejectionModal({ open: false, doctorId: '', reason: '' })} 
                 className="btn btn-ghost btn-sm"
               >
                 Cancel
               </button>
               <button 
+                type="button"
                 onClick={submitRejection} 
                 className="btn btn-primary btn-sm"
                 style={{ background: 'var(--error)', borderColor: 'var(--error)' }}

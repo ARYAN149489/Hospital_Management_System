@@ -94,7 +94,7 @@ export default function Home() {
                 <Link to="/signup" className="btn btn-primary btn-lg" style={{ gap: '10px' }}>
                   Access Portal <ArrowRight size={20} />
                 </Link>
-                <button className="btn btn-ghost btn-lg" style={{ gap: '10px' }}
+                <button type="button" className="btn btn-ghost btn-lg" style={{ gap: '10px' }}
                   onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}>
                   <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Play size={12} color="white" fill="white" />
@@ -193,7 +193,7 @@ export default function Home() {
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '48px' }}>
             <div style={{ display: 'flex', background: 'var(--surface-container)', borderRadius: '14px', padding: '6px', gap: '4px' }}>
               {['patient', 'doctor', 'admin'].map(role => (
-                <button key={role} onClick={() => setActiveRole(role)}
+                <button type="button" key={role} onClick={() => setActiveRole(role)}
                   style={{
                     padding: '10px 28px',
                     borderRadius: '10px',
@@ -202,7 +202,7 @@ export default function Home() {
                     fontWeight: 600,
                     fontSize: '14px',
                     textTransform: 'capitalize',
-                    transition: 'all 0.2s',
+                    transition: 'background-color 0.2s, color 0.2s, box-shadow 0.2s',
                     background: activeRole === role ? 'white' : 'transparent',
                     color: activeRole === role ? 'var(--primary)' : 'var(--on-surface-var)',
                     boxShadow: activeRole === role ? '0 2px 10px rgba(0,16,62,0.12)' : 'none',
@@ -308,7 +308,7 @@ export default function Home() {
                 ))}
                 <div style={{ display: 'flex', gap: '8px', paddingTop: '12px', borderTop: '1px solid var(--surface-high)' }}>
                   <input className="input-glass" placeholder="Type your message..." style={{ fontSize: '13px' }} readOnly />
-                  <button className="btn btn-primary btn-sm">Send</button>
+                  <button type="button" className="btn btn-primary btn-sm">Send</button>
                 </div>
               </div>
             </div>

@@ -86,8 +86,7 @@ const medicalRecordSchema = new mongoose.Schema({
     size: {
       type: Number, // in bytes
       required: true
-    },
-    cloudinaryId: String // if using Cloudinary
+    }
   },
   
   // Associated Appointment/Doctor

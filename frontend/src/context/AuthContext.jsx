@@ -92,6 +92,23 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
+  const googleLogin = async (credential) => {
+    try {
+      const response = await authAPI.googleAuth(credential);
+      if (response.success) {
+        const { accessToken, refreshToken, user } = response.data;
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+        setUser(user);
+        setIsAuthenticated(true);
+        return { success: true, user, role: user.role };
+      }
+      return { success: false, error: response.message || 'Google login failed' };
+    } catch (err) {
+      return { success: false, error: err.response?.data?.message || 'Google authentication failed' };
+    }
+  };
+
   // Update user state in memory
   const updateUser = (userData) => setUser(userData);
 
@@ -111,7 +128,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout, updateUser, refreshProfile, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout, googleLogin, updateUser, refreshProfile, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

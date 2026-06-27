@@ -61,7 +61,7 @@ export default function Chatbot() {
             </div>
           </div>
         </div>
-        <button onClick={clearHistory} className="btn-icon" title="Clear history"><Trash2 size={16} /></button>
+        <button type="button" onClick={clearHistory} className="btn-icon" title="Clear history"><Trash2 size={16} /></button>
       </div>
 
       {/* Messages */}
@@ -108,8 +108,8 @@ export default function Chatbot() {
       {/* Suggestions */}
       <div style={{ padding: '12px 0', display: 'flex', gap: '8px', overflowX: 'auto' }}>
         {SUGGESTIONS.map(s => (
-          <button key={s} onClick={() => sendMessage(s)}
-            style={{ padding: '7px 14px', borderRadius: '999px', border: '1.5px solid var(--outline-var)', background: 'white', color: 'var(--on-surface-var)', fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'var(--font-body)', transition: 'all 0.2s' }}
+          <button type="button" key={s} onClick={() => sendMessage(s)}
+            style={{ padding: '7px 14px', borderRadius: '999px', border: '1.5px solid var(--outline-var)', background: 'white', color: 'var(--on-surface-var)', fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'var(--font-body)', transition: 'border-color 0.2s, color 0.2s' }}
             onMouseEnter={e => { e.target.style.borderColor = 'var(--secondary)'; e.target.style.color = 'var(--secondary)'; }}
             onMouseLeave={e => { e.target.style.borderColor = 'var(--outline-var)'; e.target.style.color = 'var(--on-surface-var)'; }}
           >{s}</button>
@@ -129,7 +129,7 @@ export default function Chatbot() {
             disabled={loading}
           />
         </div>
-        <button onClick={() => sendMessage()} disabled={loading || !input.trim()} className="btn btn-primary" style={{ padding: '13px 18px' }}>
+        <button type="button" onClick={() => sendMessage()} disabled={loading || !input.trim()} className="btn btn-primary" style={{ padding: '13px 18px' }}>
           <Send size={18} />
         </button>
       </div>

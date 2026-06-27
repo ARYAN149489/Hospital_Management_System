@@ -35,17 +35,17 @@ const NAV = [
 export default function PatientDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  const loc = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [active, setActive] = useState('dashboard');
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
+    const params = new URLSearchParams(loc.search);
     const sec = params.get('section');
     setActive(sec || 'dashboard');
-  }, [location.search]);
+  }, [loc.search]);
 
   useEffect(() => {
     if (active === 'dashboard') fetchDashboard();
@@ -143,10 +143,9 @@ export default function PatientDashboard() {
           { label: 'Chat with AI', icon: MessageSquare, action: 'chatbot', color: 'linear-gradient(135deg, #1b004a, #5420b5)' },
           { label: 'Book Lab Test', icon: TestTube, action: 'lab-tests', color: 'linear-gradient(135deg, #006a6a, #009999)' },
         ].map(({ label, icon: Icon, action, color }) => (
-          <button key={label} onClick={() => navigate_(action)}
-            style={{ background: color, border: 'none', borderRadius: '16px', padding: '20px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', color: 'white', transition: 'all 0.2s', boxShadow: '0 4px 16px rgba(0,16,62,0.2)' }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,16,62,0.3)'; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,16,62,0.2)'; }}
+          <button type="button" key={label} onClick={() => navigate_(action)}
+            className="quick-action-btn"
+            style={{ background: color }}
           >
             <Icon size={22} />
             <span style={{ fontWeight: 700, fontSize: '15px', fontFamily: 'var(--font-display)' }}>{label}</span>
@@ -158,7 +157,7 @@ export default function PatientDashboard() {
       <div className="glass-card-sm" style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <h2 className="headline-sm">Next Appointment</h2>
-          <button onClick={() => navigate_('appointments')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--secondary)', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <button type="button" onClick={() => navigate_('appointments')} className="btn-text-link">
             View All <ChevronRight size={16} />
           </button>
         </div>
@@ -168,7 +167,7 @@ export default function PatientDashboard() {
           <div style={{ textAlign: 'center', padding: '32px' }}>
             <Calendar size={40} color="var(--outline)" style={{ margin: '0 auto 12px' }} />
             <p style={{ color: 'var(--on-surface-var)', marginBottom: '16px' }}>No upcoming appointments</p>
-            <button onClick={() => navigate_('doctors')} className="btn btn-secondary btn-sm">Book Appointment</button>
+            <button type="button" onClick={() => navigate_('doctors')} className="btn btn-secondary btn-sm">Book Appointment</button>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -189,7 +188,7 @@ export default function PatientDashboard() {
                       <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Clock size={12} />{apt.appointmentTime || 'TBD'}</span>
                     </div>
                   </div>
-                  <button onClick={() => navigate_('appointments')} className="btn btn-primary btn-sm">View Details</button>
+                  <button type="button" onClick={() => navigate_('appointments')} className="btn btn-primary btn-sm">View Details</button>
                 </div>
               );
             })}
@@ -201,7 +200,7 @@ export default function PatientDashboard() {
       <div className="glass-card-sm">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <h2 className="headline-sm">Recent Prescriptions</h2>
-          <button onClick={() => navigate_('prescriptions')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--secondary)', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <button type="button" onClick={() => navigate_('prescriptions')} className="btn-text-link">
             View All <ChevronRight size={16} />
           </button>
         </div>
@@ -219,8 +218,16 @@ export default function PatientDashboard() {
               const date = rx.prescriptionDate ? new Date(rx.prescriptionDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'N/A';
               return (
                 <div key={rx._id} 
+                  role="button"
+                  tabIndex={0}
                   onClick={() => navigate_('prescriptions')}
-                  style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px', background: 'var(--surface-low)', borderRadius: '12px', cursor: 'pointer' }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      navigate_('prescriptions');
+                    }
+                  }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px', background: 'var(--surface-low)', borderRadius: '12px', cursor: 'pointer', outline: 'none' }}
                 >
                   <div style={{ width: 40, height: 40, background: 'rgba(84,32,181,0.1)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Pill size={20} color="#5420b5" />
@@ -258,20 +265,8 @@ export default function PatientDashboard() {
           <nav style={{ flex: 1, padding: '16px 12px', overflowY: 'auto' }}>
             <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--outline)', textTransform: 'uppercase', padding: '8px 10px 4px', marginBottom: '4px' }}>Patient Portal</p>
             {NAV.map(({ id, label, icon: Icon }) => (
-              <button key={id} onClick={() => navigate_(id)}
-                style={{
-                  width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
-                  padding: '11px 12px', borderRadius: '10px', border: 'none', cursor: 'pointer',
-                  marginBottom: '2px', transition: 'all 0.2s', textAlign: 'left',
-                  background: active === id ? 'linear-gradient(135deg, rgba(0,16,62,0.08), rgba(0,106,106,0.06))' : 'transparent',
-                  color: active === id ? 'var(--primary)' : 'var(--on-surface-var)',
-                  fontWeight: active === id ? 700 : 500,
-                  fontSize: '14px',
-                  boxShadow: active === id ? 'inset 3px 0 0 var(--secondary)' : 'none',
-                  fontFamily: 'var(--font-body)',
-                }}
-                onMouseEnter={e => { if (active !== id) e.currentTarget.style.background = 'rgba(0,16,62,0.04)'; }}
-                onMouseLeave={e => { if (active !== id) e.currentTarget.style.background = 'transparent'; }}
+              <button type="button" key={id} onClick={() => navigate_(id)}
+                className={`sidebar-nav-btn ${active === id ? 'active' : ''}`}
               >
                 <Icon size={18} color={active === id ? 'var(--secondary)' : 'var(--on-surface-var)'} />
                 {label}
@@ -285,12 +280,10 @@ export default function PatientDashboard() {
               <MessageSquare size={24} color="var(--secondary)" style={{ marginBottom: '8px' }} />
               <p style={{ fontWeight: 700, fontSize: '14px', marginBottom: '6px' }}>Need Help?</p>
               <p style={{ fontSize: '12px', color: 'var(--on-surface-var)', marginBottom: '12px' }}>Chat with our AI assistant</p>
-              <button onClick={() => navigate_('chatbot')} className="btn btn-secondary btn-sm btn-full">Start Chat</button>
+              <button type="button" onClick={() => navigate_('chatbot')} className="btn btn-secondary btn-sm btn-full">Start Chat</button>
             </div>
-            <button onClick={handleLogout}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '10px', border: 'none', cursor: 'pointer', background: 'transparent', color: 'var(--error)', fontWeight: 600, fontSize: '14px', fontFamily: 'var(--font-body)' }}
-              onMouseEnter={e => e.currentTarget.style.background = 'var(--error-container)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            <button type="button" onClick={handleLogout}
+              className="sidebar-logout-btn"
             >
               <LogOut size={16} /> Logout
             </button>
@@ -308,13 +301,13 @@ export default function PatientDashboard() {
       </aside>
 
       {/* Overlay */}
-      {sidebarOpen && <div className="sidebar-overlay show" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="sidebar-overlay show" aria-hidden="true" onClick={() => setSidebarOpen(false)} />}
 
       {/* Main */}
       <main className="page-main">
         {/* Top Bar */}
         <div style={{ position: 'sticky', top: 0, zIndex: 30, background: 'rgba(246,250,254,0.88)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--surface-high)', padding: '0 28px', height: '64px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <button className="btn-icon" onClick={() => setSidebarOpen(!sidebarOpen)} style={{ display: 'none' }} id="sidebar-toggle">
+          <button type="button" className="btn-icon" onClick={() => setSidebarOpen(!sidebarOpen)} style={{ display: 'none' }} id="sidebar-toggle">
             <Menu size={20} />
           </button>
           <div style={{ flex: 1 }}>

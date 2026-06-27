@@ -42,14 +42,12 @@ export default function Appointments() {
       {/* Filter Tabs */}
       <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
         {['all', 'scheduled', 'confirmed', 'completed', 'cancelled'].map(f => (
-          <button key={f} onClick={() => setFilter(f)}
+          <button type="button" key={f} onClick={() => setFilter(f)}
+            className="filter-pill"
             style={{
-              padding: '8px 18px', borderRadius: '999px', border: '1.5px solid',
               borderColor: filter === f ? 'var(--secondary)' : 'var(--outline-var)',
               background: filter === f ? 'rgba(0,106,106,0.1)' : 'transparent',
               color: filter === f ? 'var(--secondary)' : 'var(--on-surface-var)',
-              fontWeight: 600, fontSize: '13px', cursor: 'pointer', textTransform: 'capitalize',
-              transition: 'all 0.2s',
             }}>
             {f === 'all' ? 'All' : f}
           </button>
@@ -62,7 +60,7 @@ export default function Appointments() {
         <div className="glass-card" style={{ textAlign: 'center', padding: '60px' }}>
           <Calendar size={48} color="var(--outline)" style={{ margin: '0 auto 16px' }} />
           <p style={{ color: 'var(--on-surface-var)', marginBottom: '20px' }}>No appointments found</p>
-          <button onClick={() => navigate('?section=book-appointment')} className="btn btn-primary btn-sm" style={{ border: 'none', cursor: 'pointer' }}>Book Appointment</button>
+          <button type="button" onClick={() => navigate('?section=book-appointment')} className="btn btn-primary btn-sm" style={{ border: 'none', cursor: 'pointer' }}>Book Appointment</button>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -88,7 +86,7 @@ export default function Appointments() {
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px' }}>
                     <span className={`badge ${STATUS_COLORS[apt.status] || 'badge-info'}`} style={{ textTransform: 'capitalize' }}>{apt.status}</span>
                     {['scheduled', 'confirmed'].includes(apt.status) && (
-                      <button onClick={() => handleCancel(apt._id)} className="btn btn-ghost btn-sm" style={{ color: 'var(--error)', borderColor: 'var(--error)' }}>
+                      <button type="button" onClick={() => handleCancel(apt._id)} className="btn btn-ghost btn-sm" style={{ color: 'var(--error)', borderColor: 'var(--error)' }}>
                         <X size={14} /> Cancel
                       </button>
                     )}

@@ -4,6 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { notificationAPI } from '../../services/api';
 import { toast } from 'react-hot-toast';
 
+const getIcon = (category) => {
+  switch (category) {
+    case 'success': return <CheckCircle size={20} color="var(--secondary)" />;
+    case 'warning': return <AlertCircle size={20} color="var(--error)" />;
+    case 'info': return <Info size={20} color="var(--primary)" />;
+    default: return <Bell size={20} color="var(--primary)" />;
+  }
+};
+
 export default function NotificationsTab() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -85,15 +94,6 @@ export default function NotificationsTab() {
     }
   };
 
-  const getIcon = (category) => {
-    switch (category) {
-      case 'success': return <CheckCircle size={20} color="var(--secondary)" />;
-      case 'warning': return <AlertCircle size={20} color="var(--error)" />;
-      case 'info': return <Info size={20} color="var(--primary)" />;
-      default: return <Bell size={20} color="var(--primary)" />;
-    }
-  };
-
   if (loading) return <div style={{ display: 'flex', justifyContent: 'center', padding: '60px' }}><div className="spinner spinner-lg" /></div>;
 
   return (
@@ -101,7 +101,7 @@ export default function NotificationsTab() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <h2 className="headline-sm">Notifications</h2>
         {notifications.some(n => !n.isRead) && (
-          <button onClick={markAllAsRead} className="btn btn-secondary btn-sm">
+          <button type="button" onClick={markAllAsRead} className="btn btn-secondary btn-sm">
             Mark all as read
           </button>
         )}
@@ -127,12 +127,20 @@ export default function NotificationsTab() {
                   padding: '16px',
                   background: notif.isRead ? 'var(--surface)' : 'var(--surface-low)',
                   borderLeft: notif.isRead ? 'none' : '4px solid var(--primary)',
-                  transition: 'all 0.2s ease'
+                  transition: 'background-color 0.2s ease, border-left-color 0.2s ease'
                 }}
               >
                 <div 
+                  role="button"
+                  tabIndex={0}
                   onClick={() => handleNotificationClick(notif)}
-                  style={{ display: 'flex', flex: 1, gap: '16px', cursor: 'pointer' }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleNotificationClick(notif);
+                    }
+                  }}
+                  style={{ display: 'flex', flex: 1, gap: '16px', cursor: 'pointer', outline: 'none' }}
                 >
                   <div style={{ width: 40, height: 40, borderRadius: '10px', background: 'rgba(0,16,62,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     {getIcon(notif.category)}
@@ -151,11 +159,11 @@ export default function NotificationsTab() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {!notif.isRead && (
-                    <button onClick={(e) => { e.stopPropagation(); markAsRead(notif._id); }} className="btn-icon" title="Mark as read" style={{ width: 28, height: 28 }}>
+                    <button type="button" onClick={(e) => { e.stopPropagation(); markAsRead(notif._id); }} className="btn-icon" title="Mark as read" style={{ width: 28, height: 28 }}>
                       <Check size={14} color="var(--secondary)" />
                     </button>
                   )}
-                  <button onClick={(e) => { e.stopPropagation(); deleteNotification(notif._id); }} className="btn-icon" title="Delete" style={{ width: 28, height: 28 }}>
+                  <button type="button" onClick={(e) => { e.stopPropagation(); deleteNotification(notif._id); }} className="btn-icon" title="Delete" style={{ width: 28, height: 28 }}>
                     <Trash2 size={14} color="var(--error)" />
                   </button>
                 </div>

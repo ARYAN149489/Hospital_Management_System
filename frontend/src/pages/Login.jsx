@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, CreditCard, Heart } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, Heart } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-hot-toast';
+import { GoogleLogin } from '@react-oauth/google';
+
+const handleGoogleError = () => {
+  toast.error('Google sign-in was cancelled or failed');
+};
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, googleLogin } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ email: '', password: '', remember: false });
@@ -39,6 +44,25 @@ export default function Login() {
       setLoading(false);
     }
   };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setLoading(true);
+    try {
+      const result = await googleLogin(credentialResponse.credential);
+      if (result?.success) {
+        toast.success('Welcome back!');
+        const map = { patient: '/patient/dashboard', doctor: '/doctor/dashboard', admin: '/admin/dashboard' };
+        navigate(map[result.role] || '/');
+      } else {
+        toast.error(result?.error || 'Google login failed');
+      }
+    } catch {
+      toast.error('Google authentication failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <div style={{
@@ -106,7 +130,7 @@ export default function Login() {
           <div className="form-group">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
               <label className="form-label" style={{ margin: 0 }}>Password</label>
-              <a href="#" style={{ fontSize: '13px', color: 'var(--secondary)', fontWeight: 600, textDecoration: 'none' }}>Forgot password?</a>
+              <button type="button" className="btn-text-link" style={{ fontSize: '13px', padding: 0 }}>Forgot password?</button>
             </div>
             <div className="input-wrapper">
               <Lock size={18} className="input-icon-left" />
@@ -151,11 +175,18 @@ export default function Login() {
         {/* Divider */}
         <div className="divider" style={{ marginBottom: '20px' }}>or continue with</div>
 
-        {/* Staff ID Login button */}
-        <button className="btn btn-ghost btn-full" style={{ marginBottom: '28px' }}>
-          <CreditCard size={18} color="var(--primary)" />
-          Staff ID Login
-        </button>
+        {/* Google Sign-In */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '28px' }}>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            theme="outline"
+            size="large"
+            width="380"
+            text="signin_with"
+            shape="rectangular"
+          />
+        </div>
 
         <p style={{ textAlign: 'center', fontSize: '14px', color: 'var(--on-surface-var)' }}>
           Don't have an account?{' '}

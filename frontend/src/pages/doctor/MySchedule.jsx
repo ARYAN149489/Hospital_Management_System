@@ -42,7 +42,7 @@ export default function MySchedule() {
             const schedObj = {};
             avail.forEach(dayItem => {
                const dayName = dayItem.day.charAt(0).toUpperCase() + dayItem.day.slice(1);
-               const slots = (dayItem.slots || []).map(s => parseTime(s.startTime)).filter(Boolean);
+               const slots = (dayItem.slots || []).flatMap(s => { const t = parseTime(s.startTime); return t ? [t] : []; });
                schedObj[dayName] = { isWorking: dayItem.isAvailable, slots };
             });
             setSchedule(schedObj);
@@ -99,7 +99,7 @@ export default function MySchedule() {
     <div style={{ maxWidth: '720px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <h2 className="headline-sm">My Schedule</h2>
-        <button onClick={saveSchedule} disabled={saving} className="btn btn-primary btn-sm">
+        <button type="button" onClick={saveSchedule} disabled={saving} className="btn btn-primary btn-sm">
           {saving ? <div className="spinner spinner-sm" style={{ borderTopColor: 'white' }} /> : 'Save Schedule'}
         </button>
       </div>
@@ -114,22 +114,22 @@ export default function MySchedule() {
                   <div style={{ width: 8, height: 8, borderRadius: '50%', background: dayData.isWorking ? 'var(--secondary)' : 'var(--outline-var)' }} />
                   <p style={{ fontWeight: 700, fontSize: '15px', color: dayData.isWorking ? 'var(--on-surface)' : 'var(--on-surface-var)' }}>{day}</p>
                 </div>
-                <button onClick={() => toggleDay(day)}
-                  style={{ width: 44, height: 24, borderRadius: '999px', border: 'none', cursor: 'pointer', transition: 'all 0.2s', background: dayData.isWorking ? 'var(--secondary)' : 'var(--surface-container)', position: 'relative' }}>
-                  <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'white', position: 'absolute', top: '3px', left: dayData.isWorking ? '23px' : '3px', transition: 'left 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
+                <button type="button" onClick={() => toggleDay(day)}
+                  className="toggle-switch"
+                  style={{ background: dayData.isWorking ? 'var(--secondary)' : 'var(--surface-container)' }}>
+                  <div className="toggle-switch-knob" style={{ left: dayData.isWorking ? '23px' : '3px' }} />
                 </button>
               </div>
 
               {dayData.isWorking && (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {SLOTS.map(slot => (
-                    <button key={slot} onClick={() => toggleSlot(day, slot)}
+                    <button type="button" key={slot} onClick={() => toggleSlot(day, slot)}
+                      className="slot-pill"
                       style={{
-                        padding: '6px 12px', borderRadius: '8px', border: '1.5px solid',
                         borderColor: (dayData.slots || []).includes(slot) ? 'var(--secondary)' : 'var(--outline-var)',
                         background: (dayData.slots || []).includes(slot) ? 'rgba(0,106,106,0.1)' : 'transparent',
                         color: (dayData.slots || []).includes(slot) ? 'var(--secondary)' : 'var(--on-surface-var)',
-                        fontSize: '12px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s',
                       }}>
                       {slot}
                     </button>

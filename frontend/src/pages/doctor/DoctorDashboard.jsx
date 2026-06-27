@@ -34,7 +34,7 @@ const NAV = [
 export default function DoctorDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  const loc = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [active, setActive] = useState('dashboard');
   const [stats, setStats] = useState({ totalPatients: 0, todayAppointments: 0, totalPrescriptions: 0, pendingAppointments: 0 });
@@ -43,9 +43,9 @@ export default function DoctorDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
+    const params = new URLSearchParams(loc.search);
     setActive(params.get('section') || 'dashboard');
-  }, [location.search]);
+  }, [loc.search]);
 
   useEffect(() => {
     if (active === 'dashboard') fetchDashboard();
@@ -102,7 +102,7 @@ export default function DoctorDashboard() {
         <div className="glass-card-sm">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
             <h2 className="headline-sm">Today's Schedule</h2>
-            <button onClick={() => nav('appointments')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--secondary)', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <button type="button" onClick={() => nav('appointments')} className="btn-text-link">
               View All <ChevronRight size={16} />
             </button>
           </div>
@@ -144,7 +144,7 @@ export default function DoctorDashboard() {
                 { label: 'New Prescription', action: 'create-prescription', icon: Plus },
                 { label: 'Apply for Leave', action: 'leave', icon: Calendar },
               ].map(({ label, action, icon: Icon }) => (
-                <button key={action} onClick={() => nav(action)} className="btn btn-ghost btn-sm" style={{ justifyContent: 'flex-start', gap: '10px', padding: '10px 12px' }}>
+                <button type="button" key={action} onClick={() => nav(action)} className="btn btn-ghost btn-sm" style={{ justifyContent: 'flex-start', gap: '10px', padding: '10px 12px' }}>
                   <Icon size={16} color="var(--secondary)" /> {label}
                 </button>
               ))}
@@ -188,17 +188,8 @@ export default function DoctorDashboard() {
           <nav style={{ flex: 1, padding: '16px 12px', overflowY: 'auto' }}>
             <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--outline)', textTransform: 'uppercase', padding: '8px 10px 4px', marginBottom: '4px' }}>Doctor Portal</p>
             {NAV.map(({ id, label, icon: Icon }) => (
-              <button key={id} onClick={() => nav(id)}
-                style={{
-                  width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
-                  padding: '11px 12px', borderRadius: '10px', border: 'none', cursor: 'pointer',
-                  marginBottom: '2px', transition: 'all 0.2s', textAlign: 'left',
-                  background: active === id ? 'linear-gradient(135deg, rgba(0,16,62,0.08), rgba(0,106,106,0.06))' : 'transparent',
-                  color: active === id ? 'var(--primary)' : 'var(--on-surface-var)',
-                  fontWeight: active === id ? 700 : 500, fontSize: '14px',
-                  boxShadow: active === id ? 'inset 3px 0 0 var(--secondary)' : 'none',
-                  fontFamily: 'var(--font-body)',
-                }}
+              <button type="button" key={id} onClick={() => nav(id)}
+                className={`sidebar-nav-btn ${active === id ? 'active' : ''}`}
               >
                 <Icon size={18} color={active === id ? 'var(--secondary)' : 'var(--on-surface-var)'} /> {label}
               </button>
@@ -206,10 +197,8 @@ export default function DoctorDashboard() {
           </nav>
 
           <div style={{ padding: '16px 12px' }}>
-            <button onClick={handleLogout}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '10px', border: 'none', cursor: 'pointer', background: 'transparent', color: 'var(--error)', fontWeight: 600, fontSize: '14px', fontFamily: 'var(--font-body)' }}
-              onMouseEnter={e => e.currentTarget.style.background = 'var(--error-container)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            <button type="button" onClick={handleLogout}
+              className="sidebar-logout-btn"
             >
               <LogOut size={16} /> Logout
             </button>
@@ -225,11 +214,11 @@ export default function DoctorDashboard() {
         </div>
       </aside>
 
-      {sidebarOpen && <div className="sidebar-overlay show" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="sidebar-overlay show" aria-hidden="true" onClick={() => setSidebarOpen(false)} />}
 
       <main className="page-main">
         <div style={{ position: 'sticky', top: 0, zIndex: 30, background: 'rgba(246,250,254,0.88)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--surface-high)', padding: '0 28px', height: '64px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <button className="btn-icon" onClick={() => setSidebarOpen(!sidebarOpen)} style={{ display: 'none' }} id="sidebar-toggle-doc"><Menu size={20} /></button>
+          <button type="button" className="btn-icon" onClick={() => setSidebarOpen(!sidebarOpen)} style={{ display: 'none' }} id="sidebar-toggle-doc"><Menu size={20} /></button>
           <h2 style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '18px' }}>
             {NAV.find(n => n.id === active)?.label || 'Dashboard'}
           </h2>

@@ -46,7 +46,7 @@ export default function ManageDepartments() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h2 className="headline-sm">Departments ({departments.length})</h2>
-        <button onClick={() => { setShowForm(!showForm); setEditId(null); setForm({ name: '', description: '', head: '' }); }} className="btn btn-primary btn-sm">
+        <button type="button" onClick={() => { setShowForm(!showForm); setEditId(null); setForm({ name: '', description: '', head: '' }); }} className="btn btn-primary btn-sm">
           <Plus size={15} /> Add Department
         </button>
       </div>
@@ -86,10 +86,10 @@ export default function ManageDepartments() {
                   <Building2 size={20} color="white" />
                 </div>
                 <div style={{ display: 'flex', gap: '4px' }}>
-                  <button onClick={() => { setEditId(dept._id); setForm({ name: dept.name, description: dept.description || '', head: dept.head || '' }); setShowForm(true); }} className="btn-icon" style={{ width: 32, height: 32 }}>
+                  <button type="button" onClick={() => { setEditId(dept._id); setForm({ name: dept.name, description: dept.description || '', head: dept.head || '' }); setShowForm(true); }} className="btn-icon" style={{ width: 32, height: 32 }}>
                     <Edit2 size={13} />
                   </button>
-                  <button onClick={() => deleteDept(dept._id)} className="btn-icon" style={{ width: 32, height: 32, color: 'var(--error)' }}>
+                  <button type="button" onClick={() => deleteDept(dept._id)} className="btn-icon" style={{ width: 32, height: 32, color: 'var(--error)' }}>
                     <Trash2 size={13} />
                   </button>
                 </div>

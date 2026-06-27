@@ -84,10 +84,10 @@ export default function ManageLeave() {
                     <span className={`badge ${STATUS_COLORS[leave.status] || 'badge-info'}`} style={{ textTransform: 'capitalize' }}>{leave.status || 'pending'}</span>
                     {leave.status === 'pending' && (
                       <div style={{ display: 'flex', gap: '8px' }}>
-                        <button onClick={() => approve(leave._id)} className="btn btn-secondary btn-sm">
+                        <button type="button" onClick={() => approve(leave._id)} className="btn btn-secondary btn-sm">
                           <CheckCircle size={13} /> Approve
                         </button>
-                        <button onClick={() => openRejectionModal(leave._id)} className="btn btn-ghost btn-sm" style={{ color: 'var(--error)', borderColor: 'var(--error)' }}>
+                        <button type="button" onClick={() => openRejectionModal(leave._id)} className="btn btn-ghost btn-sm" style={{ color: 'var(--error)', borderColor: 'var(--error)' }}>
                           <XCircle size={13} /> Reject
                         </button>
                       </div>
@@ -141,12 +141,14 @@ export default function ManageLeave() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '20px' }}>
               <button 
+                type="button"
                 onClick={() => setRejectionModal({ open: false, leaveId: '', reason: '' })} 
                 className="btn btn-ghost btn-sm"
               >
                 Cancel
               </button>
               <button 
+                type="button"
                 onClick={submitRejection} 
                 className="btn btn-primary btn-sm"
                 style={{ background: 'var(--error)', borderColor: 'var(--error)' }}

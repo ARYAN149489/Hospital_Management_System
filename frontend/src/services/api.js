@@ -59,6 +59,7 @@ export const authAPI = {
   getProfile: () => api.get('/auth/profile').then(r => r.data),
   updateProfile: (data) => api.put('/auth/profile', data).then(r => r.data),
   changePassword: (data) => api.post('/auth/change-password', data).then(r => r.data),
+  googleAuth: (credential) => api.post('/auth/google', { credential }).then(r => r.data),
 };
 
 // ===== PATIENT =====

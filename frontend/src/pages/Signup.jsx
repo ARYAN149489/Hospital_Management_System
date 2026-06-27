@@ -3,10 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, User, Phone, Calendar, ArrowRight, Heart } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-hot-toast';
+import { GoogleLogin } from '@react-oauth/google';
 
 export default function Signup() {
   const navigate = useNavigate();
-  const { signup } = useAuth();
+  const { signup, googleLogin } = useAuth();
   const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -46,6 +47,23 @@ export default function Signup() {
     }
   };
 
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setLoading(true);
+    try {
+      const result = await googleLogin(credentialResponse.credential);
+      if (result?.success) {
+        toast.success('Account created successfully!');
+        navigate('/patient/dashboard');
+      } else {
+        toast.error(result?.error || 'Google signup failed');
+      }
+    } catch {
+      toast.error('Google authentication failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -80,12 +98,12 @@ export default function Signup() {
               color: s <= step ? 'white' : 'var(--outline)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontWeight: 700, fontSize: '14px',
-              transition: 'all 0.3s',
+              transition: 'background-color 0.3s, color 0.3s',
             }}>{s}</div>
             <span style={{ fontSize: '13px', fontWeight: s === step ? 600 : 400, color: s === step ? 'var(--on-surface)' : 'var(--on-surface-var)' }}>
               {s === 1 ? 'Account' : 'Profile'}
             </span>
-            {s < 2 && <div style={{ width: 32, height: 2, background: step > 1 ? 'var(--secondary)' : 'var(--outline-var)', borderRadius: 2, transition: 'all 0.3s' }} />}
+            {s < 2 && <div style={{ width: 32, height: 2, background: step > 1 ? 'var(--secondary)' : 'var(--outline-var)', borderRadius: 2, transition: 'background-color 0.3s' }} />}
           </div>
         ))}
       </div>
@@ -134,7 +152,7 @@ export default function Signup() {
           </>
         ) : (
           <>
-            <button onClick={() => setStep(1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--on-surface-var)', fontSize: '14px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <button type="button" onClick={() => setStep(1)} className="btn-text-link" style={{ color: 'var(--on-surface-var)', marginBottom: '20px' }}>
               ← Back
             </button>
             <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '22px', marginBottom: '8px' }}>Your Profile</h2>
@@ -173,7 +191,23 @@ export default function Signup() {
           </>
         )}
 
-        <p style={{ textAlign: 'center', fontSize: '14px', color: 'var(--on-surface-var)', marginTop: '24px' }}>
+        {/* Divider */}
+        <div className="divider" style={{ margin: '24px 0 20px' }}>or sign up with</div>
+
+        {/* Google Sign-Up */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px' }}>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => toast.error('Google sign-in was cancelled or failed')}
+            theme="outline"
+            size="large"
+            width="380"
+            text="signup_with"
+            shape="rectangular"
+          />
+        </div>
+
+        <p style={{ textAlign: 'center', fontSize: '14px', color: 'var(--on-surface-var)' }}>
           Already have an account?{' '}
           <Link to="/login" style={{ color: 'var(--secondary)', fontWeight: 700, textDecoration: 'none' }}>Sign in</Link>
         </p>

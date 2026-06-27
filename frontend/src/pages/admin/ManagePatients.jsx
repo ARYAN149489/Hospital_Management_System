@@ -68,7 +68,7 @@ export default function ManagePatients() {
                     <td><span className="badge badge-info" style={{ textTransform: 'capitalize' }}>{u.gender || '—'}</span></td>
                     <td><span className={`badge ${isUserActive ? 'badge-stable' : 'badge-critical'}`}>{isUserActive ? 'Active' : 'Inactive'}</span></td>
                     <td>
-                      <button onClick={() => toggleStatus(pat.user?._id, pat._id, pat.user?.isActive)} className="btn btn-ghost btn-sm">
+                      <button type="button" onClick={() => toggleStatus(pat.user?._id, pat._id, pat.user?.isActive)} className="btn btn-ghost btn-sm">
                         {isUserActive ? <ToggleRight size={16} color="var(--secondary)" /> : <ToggleLeft size={16} />}
                         {isUserActive ? 'Deactivate' : 'Activate'}
                       </button>

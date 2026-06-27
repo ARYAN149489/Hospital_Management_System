@@ -10,7 +10,7 @@ import { notificationAPI } from '../../services/api';
 const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  const loc = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -29,7 +29,7 @@ const Navbar = () => {
         .then(r => { if (r.success) setUnreadCount(r.data?.count || 0); })
         .catch(() => {});
     }
-  }, [isAuthenticated, location.pathname]);
+  }, [isAuthenticated, loc.pathname]);
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -52,7 +52,7 @@ const Navbar = () => {
     return map[user.role] || '/';
   };
 
-  const isHome = location.pathname === '/';
+  const isHome = loc.pathname === '/';
   const firstName = user?.firstName || user?.name?.split(' ')[0] || 'User';
   const initials = (user?.firstName?.[0] || user?.name?.[0] || 'U').toUpperCase();
 
@@ -88,14 +88,14 @@ const Navbar = () => {
             {isAuthenticated ? (
               <>
                 <Link to={getDashboardLink()} className="nav-link"
-                  style={{ color: 'var(--on-surface-var)', fontWeight: 500, fontSize: '15px', textDecoration: 'none', padding: '8px 14px', borderRadius: '8px', transition: 'all 0.2s' }}
+                  style={{ color: 'var(--on-surface-var)', fontWeight: 500, fontSize: '15px', textDecoration: 'none', padding: '8px 14px', borderRadius: '8px', transition: 'background-color 0.2s, color 0.2s' }}
                   onMouseEnter={e => { e.target.style.background = 'rgba(0,16,62,0.06)'; e.target.style.color = 'var(--primary)'; }}
                   onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = 'var(--on-surface-var)'; }}
                 >Dashboard</Link>
 
                 {user?.role === 'patient' && (
                   <>
-                    <Link to="/patient/dashboard?section=doctors" style={{ color: 'var(--on-surface-var)', fontWeight: 500, fontSize: '15px', textDecoration: 'none', padding: '8px 14px', borderRadius: '8px', transition: 'all 0.2s' }}
+                    <Link to="/patient/dashboard?section=doctors" style={{ color: 'var(--on-surface-var)', fontWeight: 500, fontSize: '15px', textDecoration: 'none', padding: '8px 14px', borderRadius: '8px', transition: 'background-color 0.2s, color 0.2s' }}
                       onMouseEnter={e => { e.target.style.background = 'rgba(0,16,62,0.06)'; e.target.style.color = 'var(--primary)'; }}
                       onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = 'var(--on-surface-var)'; }}
                     >Find Doctors</Link>
@@ -107,7 +107,7 @@ const Navbar = () => {
                 )}
 
                 {/* Notification Bell */}
-                <button className="btn-icon" style={{ position: 'relative' }}
+                <button type="button" className="btn-icon" style={{ position: 'relative' }}
                   onClick={() => navigate(getDashboardLink())}
                 >
                   <Bell size={18} />
@@ -119,8 +119,9 @@ const Navbar = () => {
                 {/* User Menu */}
                 <div ref={userMenuRef} style={{ position: 'relative' }}>
                   <button
+                    type="button"
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
-                    style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px', borderRadius: '10px' }}
+                    className="nav-user-btn"
                   >
                     <div className="avatar avatar-sm avatar-gradient">{initials}</div>
                     <span style={{ fontWeight: 600, fontSize: '14px', color: 'var(--on-surface)' }}>{firstName}</span>
@@ -128,13 +129,7 @@ const Navbar = () => {
                   </button>
 
                   {userMenuOpen && (
-                    <div className="animate-scaleIn" style={{
-                      position: 'absolute', right: 0, top: 'calc(100% + 8px)',
-                      background: 'white', borderRadius: '14px',
-                      boxShadow: 'var(--glass-shadow-lg)',
-                      border: '1px solid var(--outline-var)',
-                      width: '200px', padding: '8px', zIndex: 100
-                    }}>
+                    <div className="animate-scaleIn nav-dropdown">
                       <div style={{ padding: '10px 12px', borderBottom: '1px solid var(--surface-high)', marginBottom: '4px' }}>
                         <p style={{ fontWeight: 700, fontSize: '14px', color: 'var(--on-surface)' }}>{user?.firstName} {user?.lastName}</p>
                         <p style={{ fontSize: '12px', color: 'var(--on-surface-var)', marginTop: '2px' }}>{user?.email}</p>
@@ -142,18 +137,14 @@ const Navbar = () => {
                       </div>
                       {user?.role !== 'admin' && (
                         <Link to={`/${user?.role}/dashboard?section=profile`}
-                          style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', textDecoration: 'none', color: 'var(--on-surface)', fontSize: '14px' }}
+                          className="nav-dropdown-item"
                           onClick={() => setUserMenuOpen(false)}
-                          onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-low)'}
-                          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                         >
                           <User size={16} color="var(--on-surface-var)" /> Profile
                         </Link>
                       )}
-                      <button onClick={handleLogout}
-                        style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '10px 12px', borderRadius: '8px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--error)', fontSize: '14px', fontWeight: 500 }}
-                        onMouseEnter={e => e.currentTarget.style.background = 'var(--error-container)'}
-                        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                      <button type="button" onClick={handleLogout}
+                        className="nav-dropdown-logout-btn"
                       >
                         <LogOut size={16} /> Logout
                       </button>
@@ -176,7 +167,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Hamburger */}
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="btn-icon mobile-only"
+          <button type="button" onClick={() => setMobileOpen(!mobileOpen)} className="btn-icon mobile-only"
             style={{ display: 'none' }}>
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -195,7 +186,7 @@ const Navbar = () => {
               {user?.role !== 'admin' && (
                 <Link to={`/${user?.role}/dashboard?section=profile`} style={{ padding: '10px', color: 'var(--on-surface)', textDecoration: 'none', fontWeight: 500 }} onClick={() => setMobileOpen(false)}>Profile</Link>
               )}
-              <button onClick={handleLogout} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '10px', color: 'var(--error)', fontWeight: 500, cursor: 'pointer' }}>Logout</button>
+              <button type="button" onClick={handleLogout} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '10px', color: 'var(--error)', fontWeight: 500, cursor: 'pointer' }}>Logout</button>
             </>
           ) : (
             <>

@@ -3,6 +3,15 @@ import { Bell, X, CheckCircle, AlertCircle, Info, ChevronRight, Check, CheckChec
 import { notificationAPI } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 
+const getIcon = (category) => {
+  switch (category) {
+    case 'success': return <CheckCircle size={16} color="var(--secondary)" />;
+    case 'warning': return <AlertCircle size={16} color="var(--error)" />;
+    case 'info': return <Info size={16} color="var(--primary)" />;
+    default: return <Bell size={16} color="var(--primary)" />;
+  }
+};
+
 export default function NotificationWidget() {
   const [position, setPosition] = useState({ x: window.innerWidth - 80, y: window.innerHeight - 80 });
   const [isDragging, setIsDragging] = useState(false);
@@ -90,22 +99,21 @@ export default function NotificationWidget() {
     } catch (e) {}
   };
 
-  const getIcon = (category) => {
-    switch (category) {
-      case 'success': return <CheckCircle size={16} color="var(--secondary)" />;
-      case 'warning': return <AlertCircle size={16} color="var(--error)" />;
-      case 'info': return <Info size={16} color="var(--primary)" />;
-      default: return <Bell size={16} color="var(--primary)" />;
-    }
-  };
-
   return (
     <>
       {/* Draggable & Premium Styled Notification Button */}
       <div
         ref={dragRef}
+        role="button"
+        tabIndex={0}
         onMouseDown={handleMouseDown}
         onClick={handleClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleClick(e);
+          }
+        }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={{
@@ -174,7 +182,7 @@ export default function NotificationWidget() {
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
-          transition: 'all 0.3s ease'
+          transition: 'opacity 0.3s ease, transform 0.3s ease'
         }}>
           {/* Header */}
           <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(0,0,0,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -182,14 +190,16 @@ export default function NotificationWidget() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               {unreadCount > 0 && (
                 <button 
+                  type="button"
                   onClick={(e) => { e.stopPropagation(); markAllAsRead(); }} 
-                  style={{ background: 'none', border: 'none', color: 'var(--secondary)', fontSize: '12px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '3px', padding: 0 }}
+                  className="btn-text-link"
+                  style={{ fontSize: '12px', fontWeight: 700, gap: '3px', padding: 0 }}
                   title="Mark all as read"
                 >
                   <CheckCheck size={14} /> Mark all
                 </button>
               )}
-              <button onClick={() => setIsOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--outline)', padding: '2px' }}>
+              <button type="button" onClick={() => setIsOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--outline)', padding: '2px' }}>
                 <X size={16} />
               </button>
             </div>
@@ -203,41 +213,53 @@ export default function NotificationWidget() {
                 <p style={{ margin: 0, fontSize: '13px' }}>No new notifications</p>
               </div>
             ) : (
-              notifications.slice(0, 5).map(notif => (
-                <div 
-                  key={notif._id} 
-                  onClick={async () => {
-                    setIsOpen(false);
-                    if (!notif.isRead) {
-                      setUnreadCount(prev => Math.max(0, prev - 1));
-                      setNotifications(prev => prev.map(n => n._id === notif._id ? { ...n, isRead: true } : n));
-                      try {
-                        await notificationAPI.markAsRead(notif._id);
-                      } catch {}
-                      window.dispatchEvent(new CustomEvent('notification-updated'));
-                    }
-                    const type = notif.type || '';
-                    if (type.includes('prescription')) {
-                      navigate('?section=prescriptions');
-                    } else if (type.includes('appointment')) {
-                      navigate('?section=appointments');
-                    } else if (type.includes('leave')) {
-                      navigate('?section=leave');
-                    } else {
-                      navigate('?section=notifications');
-                    }
-                  }}
-                  style={{ 
-                    padding: '14px 20px', 
-                    borderBottom: '1px solid rgba(0,0,0,0.04)', 
-                    display: 'flex', 
-                    gap: '12px', 
-                    background: notif.isRead ? 'transparent' : 'rgba(0,106,106,0.03)',
-                    cursor: 'pointer',
-                    position: 'relative',
-                    transition: 'background 0.2s'
-                  }}
-                >
+              notifications.slice(0, 5).map(notif => {
+                const handleClickNotification = async () => {
+                  setIsOpen(false);
+                  if (!notif.isRead) {
+                    setUnreadCount(prev => Math.max(0, prev - 1));
+                    setNotifications(prev => prev.map(n => n._id === notif._id ? { ...n, isRead: true } : n));
+                    try {
+                      await notificationAPI.markAsRead(notif._id);
+                    } catch {}
+                    window.dispatchEvent(new CustomEvent('notification-updated'));
+                  }
+                  const type = notif.type || '';
+                  if (type.includes('prescription')) {
+                    navigate('?section=prescriptions');
+                  } else if (type.includes('appointment')) {
+                    navigate('?section=appointments');
+                  } else if (type.includes('leave')) {
+                    navigate('?section=leave');
+                  } else {
+                    navigate('?section=notifications');
+                  }
+                };
+
+                return (
+                  <div 
+                    key={notif._id} 
+                    role="button"
+                    tabIndex={0}
+                    onClick={handleClickNotification}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleClickNotification();
+                      }
+                    }}
+                    style={{ 
+                      padding: '14px 20px', 
+                      borderBottom: '1px solid rgba(0,0,0,0.04)', 
+                      display: 'flex', 
+                      gap: '12px', 
+                      background: notif.isRead ? 'transparent' : 'rgba(0,106,106,0.03)',
+                      cursor: 'pointer',
+                      position: 'relative',
+                      transition: 'background 0.2s',
+                      outline: 'none'
+                    }}
+                  >
                   <div style={{ marginTop: '2px', flexShrink: 0 }}>{getIcon(notif.category)}</div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{ fontWeight: notif.isRead ? 600 : 800, fontSize: '13px', marginBottom: '3px', color: notif.isRead ? 'var(--on-surface)' : 'var(--primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{notif.title}</p>
@@ -247,41 +269,30 @@ export default function NotificationWidget() {
                   {/* Mark as read icon button for unread notifications */}
                   {!notif.isRead && (
                     <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         markAsRead(notif._id);
                       }}
-                      style={{
-                        background: 'rgba(0,106,106,0.08)',
-                        border: 'none',
-                        borderRadius: '50%',
-                        width: '24px',
-                        height: '24px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        alignSelf: 'center',
-                        marginLeft: '8px',
-                        flexShrink: 0,
-                        color: 'var(--secondary)',
-                        transition: 'all 0.2s'
-                      }}
+                      className="btn-check-round"
                       title="Mark as read"
                     >
                       <Check size={12} strokeWidth={3} />
                     </button>
                   )}
                 </div>
-              ))
+              );
+            })
             )}
           </div>
           
           {/* Footer view all link */}
           <div style={{ padding: '12px', background: 'var(--surface-low)', textAlign: 'center', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
             <button 
+              type="button"
               onClick={() => { setIsOpen(false); navigate('?section=notifications'); }} 
-              style={{ background: 'none', border: 'none', color: 'var(--secondary)', fontWeight: 700, fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '4px' }}
+              className="btn-text-link"
+              style={{ justifyContent: 'center', width: '100%', fontWeight: 700, fontSize: '13px' }}
             >
               View All Notifications <ChevronRight size={14} />
             </button>

@@ -38,8 +38,9 @@ export default function DoctorAppointments() {
     <div>
       <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
         {['all', 'scheduled', 'confirmed', 'completed', 'cancelled'].map(f => (
-          <button key={f} onClick={() => setFilter(f)}
-            style={{ padding: '8px 18px', borderRadius: '999px', border: '1.5px solid', borderColor: filter === f ? 'var(--secondary)' : 'var(--outline-var)', background: filter === f ? 'rgba(0,106,106,0.1)' : 'transparent', color: filter === f ? 'var(--secondary)' : 'var(--on-surface-var)', fontWeight: 600, fontSize: '13px', cursor: 'pointer', textTransform: 'capitalize', transition: 'all 0.2s' }}>
+          <button type="button" key={f} onClick={() => setFilter(f)}
+            className="filter-pill"
+            style={{ borderColor: filter === f ? 'var(--secondary)' : 'var(--outline-var)', background: filter === f ? 'rgba(0,106,106,0.1)' : 'transparent', color: filter === f ? 'var(--secondary)' : 'var(--on-surface-var)' }}>
             {f === 'all' ? 'All' : f}
           </button>
         ))}
@@ -63,7 +64,7 @@ export default function DoctorAppointments() {
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <div className="avatar avatar-md avatar-teal">{patName[0]}</div>
                     <div>
-                      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', marginBottom: '4px' }}>{patName}</p>
+                      <p className="apt-patient-name">{patName}</p>
                       <div style={{ display: 'flex', gap: '12px', fontSize: '13px', color: 'var(--on-surface-var)' }}>
                         <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Calendar size={13} />{date}</span>
                         <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Clock size={13} />{apt.appointmentTime || 'TBD'}</span>
@@ -77,13 +78,13 @@ export default function DoctorAppointments() {
 
                 {['scheduled', 'confirmed'].includes(apt.status) && (
                   <div style={{ display: 'flex', gap: '8px', paddingTop: '12px', borderTop: '1px solid var(--surface-high)' }}>
-                    <button onClick={() => updateStatus(apt._id, 'confirmed')} disabled={updatingId === apt._id || apt.status === 'confirmed'} className="btn btn-secondary btn-sm">
+                    <button type="button" onClick={() => updateStatus(apt._id, 'confirmed')} disabled={updatingId === apt._id || apt.status === 'confirmed'} className="btn btn-secondary btn-sm">
                       <CheckCircle size={14} /> Confirm
                     </button>
-                    <button onClick={() => updateStatus(apt._id, 'completed')} disabled={updatingId === apt._id} className="btn btn-ghost btn-sm">
+                    <button type="button" onClick={() => updateStatus(apt._id, 'completed')} disabled={updatingId === apt._id} className="btn btn-ghost btn-sm">
                       <CheckCircle size={14} /> Complete
                     </button>
-                    <button onClick={() => updateStatus(apt._id, 'cancelled')} disabled={updatingId === apt._id} className="btn btn-ghost btn-sm" style={{ color: 'var(--error)' }}>
+                    <button type="button" onClick={() => updateStatus(apt._id, 'cancelled')} disabled={updatingId === apt._id} className="btn btn-ghost btn-sm" style={{ color: 'var(--error)' }}>
                       <XCircle size={14} /> Cancel
                     </button>
                   </div>

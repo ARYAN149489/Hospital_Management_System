@@ -7,10 +7,10 @@
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white)
+![Google](https://img.shields.io/badge/Google_OAuth-4285F4?style=for-the-badge&logo=google&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 
-A full-stack healthcare management platform featuring **role-based dashboards**, **AI-powered chatbot**, **real-time notifications**, **digital prescriptions with PDF export**, and **lab test management** — built with the MERN stack.
+A full-stack healthcare management platform featuring **role-based dashboards**, **Google OAuth**, **AI-powered chatbot**, **real-time notifications**, **digital prescriptions with PDF export**, and **lab test management** — built with the MERN stack.
 
 [Features](#-key-features) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [Architecture](#-architecture)
 
@@ -30,6 +30,7 @@ A full-stack healthcare management platform featuring **role-based dashboards**,
 - View & download prescriptions (PDF)
 - Book lab tests & download reports
 - Real-time notification center
+- Google OAuth sign-in
 
 </td>
 <td width="33%">
@@ -56,10 +57,10 @@ A full-stack healthcare management platform featuring **role-based dashboards**,
 </table>
 
 ### 🔐 Security & Infrastructure
-- **JWT Authentication** with Google & Facebook OAuth
+- **JWT Authentication** with Google OAuth
 - **Role-based access control** (Patient / Doctor / Admin)
-- **Real-time updates** via Socket.io
-- **File uploads** with Cloudinary integration
+- **Email notifications** via Nodemailer (Gmail SMTP)
+- **File uploads** with Multer (local disk storage)
 - **API security** — Helmet, rate-limiting, XSS protection, mongo sanitization
 
 ---
@@ -69,12 +70,12 @@ A full-stack healthcare management platform featuring **role-based dashboards**,
 | Layer | Technologies |
 |-------|-------------|
 | **Frontend** | React 19, Vite, React Router v7, Recharts, Lucide Icons, Axios |
-| **Backend** | Node.js, Express.js, Socket.io, Multer |
+| **Backend** | Node.js, Express.js, Multer |
 | **Database** | MongoDB with Mongoose ODM |
-| **Auth** | JWT, Passport.js, Google & Facebook OAuth |
+| **Auth** | JWT, Google OAuth (`@react-oauth/google`) |
 | **AI** | Google Gemini AI (chatbot) |
-| **Services** | Cloudinary (media), Nodemailer (email), Twilio (SMS) |
-| **Security** | Helmet, bcryptjs, express-validator, rate-limiter, xss-clean |
+| **Email** | Nodemailer (Gmail SMTP) |
+| **Security** | Helmet, bcryptjs, express-validator, rate-limiter, mongo-sanitize |
 
 ---
 
@@ -118,13 +119,20 @@ PORT=5000
 MONGODB_URI=mongodb://localhost:27017/medicare-plus
 JWT_SECRET=your_jwt_secret
 GEMINI_API_KEY=your_gemini_api_key
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
 EMAIL_USER=your_email
-EMAIL_PASS=your_email_password
-TWILIO_SID=your_twilio_sid
-TWILIO_AUTH_TOKEN=your_twilio_token
+EMAIL_PASSWORD=your_app_password
+```
+
+</details>
+
+<details>
+<summary>Frontend <code>.env</code></summary>
+
+```env
+VITE_API_URL=http://localhost:5000/api
+VITE_GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
 ```
 
 </details>
@@ -137,12 +145,12 @@ TWILIO_AUTH_TOKEN=your_twilio_token
 Hospital_Management_System/
 ├── backend/
 │   ├── config/          # Database configuration
-│   ├── controllers/     # Route handlers (15 controllers)
-│   ├── middleware/       # Auth, validation, error handling
+│   ├── controllers/     # Route handlers (14 controllers)
+│   ├── middleware/       # Auth, validation, error handling, uploads
 │   ├── models/          # Mongoose schemas (12 models)
-│   ├── routes/          # API route definitions (15 modules)
+│   ├── routes/          # API route definitions (14 modules)
 │   ├── services/        # Business logic layer
-│   ├── utils/           # Helpers, email, SMS, JWT utilities
+│   ├── utils/           # Helpers, email, JWT utilities
 │   ├── scripts/         # DB seeders & setup scripts
 │   └── server.js        # Entry point
 │
@@ -167,6 +175,7 @@ Hospital_Management_System/
 - [ ] Payment gateway integration (Razorpay/Stripe)
 - [ ] Video consultations via WebRTC
 - [ ] Mobile app with React Native
+- [ ] Real-time updates with Socket.io
 - [ ] Advanced AI diagnostics & drug interaction warnings
 - [ ] Multi-language support (i18n)
 

@@ -36,16 +36,16 @@ const CHART_DATA = [
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  const loc = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [active, setActive] = useState('dashboard');
   const [stats, setStats] = useState({ totalPatients: 0, totalDoctors: 0, totalAppointments: 0, pendingLeaves: 0, todayAppointments: 0, activeDepartments: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
+    const params = new URLSearchParams(loc.search);
     setActive(params.get('section') || 'dashboard');
-  }, [location.search]);
+  }, [loc.search]);
 
   useEffect(() => { if (active === 'dashboard') fetchStats(); }, [active]);
 
@@ -86,10 +86,9 @@ export default function AdminDashboard() {
       {/* Stats Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '28px' }}>
         {STAT_CARDS.map(({ label, value, icon: Icon, bg, action }) => (
-          <button key={label} onClick={() => nav(action)}
-            style={{ background: bg, borderRadius: '18px', padding: '22px', color: 'white', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2)'; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)'; }}
+          <button type="button" key={label} onClick={() => nav(action)}
+            className="stat-card-btn"
+            style={{ background: bg }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
@@ -110,7 +109,7 @@ export default function AdminDashboard() {
             <h2 className="headline-sm">Patient Admissions</h2>
             <div style={{ display: 'flex', gap: '6px' }}>
               {['Week', 'Month'].map(p => (
-                <button key={p} style={{ padding: '5px 14px', borderRadius: '8px', border: '1px solid var(--outline-var)', background: 'transparent', fontSize: '12px', fontWeight: 600, cursor: 'pointer', color: 'var(--on-surface-var)' }}>{p}</button>
+                <button type="button" key={p} style={{ padding: '5px 14px', borderRadius: '8px', border: '1px solid var(--outline-var)', background: 'transparent', fontSize: '12px', fontWeight: 600, cursor: 'pointer', color: 'var(--on-surface-var)' }}>{p}</button>
               ))}
             </div>
           </div>
@@ -139,7 +138,7 @@ export default function AdminDashboard() {
             <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', marginBottom: '14px' }}>Quick Actions</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {NAV.filter(n => n.id !== 'dashboard').map(({ id, label, icon: Icon }) => (
-                <button key={id} onClick={() => nav(id)} className="btn btn-ghost btn-sm" style={{ justifyContent: 'flex-start', gap: '10px', padding: '10px 12px' }}>
+                <button type="button" key={id} onClick={() => nav(id)} className="btn btn-ghost btn-sm" style={{ justifyContent: 'flex-start', gap: '10px', padding: '10px 12px' }}>
                   <Icon size={16} color="var(--secondary)" /> {label}
                 </button>
               ))}
@@ -150,7 +149,7 @@ export default function AdminDashboard() {
             <div style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: '14px', padding: '16px' }}>
               <p style={{ fontWeight: 700, fontSize: '14px', color: '#d97706', marginBottom: '6px' }}>⚠️ Pending Action</p>
               <p style={{ fontSize: '13px', color: 'var(--on-surface-var)', marginBottom: '10px' }}>{stats.pendingLeaves} leave request{stats.pendingLeaves !== 1 ? 's' : ''} awaiting approval</p>
-              <button onClick={() => nav('leave')} className="btn btn-sm" style={{ background: '#d97706', color: 'white', border: 'none' }}>Review Now</button>
+              <button type="button" onClick={() => nav('leave')} className="btn btn-sm" style={{ background: '#d97706', color: 'white', border: 'none' }}>Review Now</button>
             </div>
           )}
         </div>
@@ -175,17 +174,9 @@ export default function AdminDashboard() {
           <nav style={{ flex: 1, padding: '16px 12px', overflowY: 'auto' }}>
             <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--outline)', textTransform: 'uppercase', padding: '8px 10px 4px', marginBottom: '4px' }}>Admin Portal</p>
             {NAV.map(({ id, label, icon: Icon }) => (
-              <button key={id} onClick={() => nav(id)}
-                style={{
-                  width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
-                  padding: '11px 12px', borderRadius: '10px', border: 'none', cursor: 'pointer',
-                  marginBottom: '2px', transition: 'all 0.2s', textAlign: 'left',
-                  background: active === id ? 'linear-gradient(135deg, rgba(0,16,62,0.08), rgba(0,106,106,0.06))' : 'transparent',
-                  color: active === id ? 'var(--primary)' : 'var(--on-surface-var)',
-                  fontWeight: active === id ? 700 : 500, fontSize: '14px',
-                  boxShadow: active === id ? 'inset 3px 0 0 var(--secondary)' : 'none',
-                  fontFamily: 'var(--font-body)',
-                }}>
+              <button type="button" key={id} onClick={() => nav(id)}
+                className={`sidebar-nav-btn ${active === id ? 'active' : ''}`}
+              >
                 <Icon size={18} color={active === id ? 'var(--secondary)' : 'var(--on-surface-var)'} /> {label}
                 {id === 'leave' && stats.pendingLeaves > 0 && (
                   <span style={{ marginLeft: 'auto', width: 20, height: 20, borderRadius: '50%', background: '#d97706', color: 'white', fontSize: '11px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{stats.pendingLeaves}</span>
@@ -195,10 +186,8 @@ export default function AdminDashboard() {
           </nav>
 
           <div style={{ padding: '16px 12px' }}>
-            <button onClick={handleLogout}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '10px', border: 'none', cursor: 'pointer', background: 'transparent', color: 'var(--error)', fontWeight: 600, fontSize: '14px', fontFamily: 'var(--font-body)' }}
-              onMouseEnter={e => e.currentTarget.style.background = 'var(--error-container)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            <button type="button" onClick={handleLogout}
+              className="sidebar-logout-btn"
             >
               <LogOut size={16} /> Logout
             </button>
@@ -214,11 +203,11 @@ export default function AdminDashboard() {
         </div>
       </aside>
 
-      {sidebarOpen && <div className="sidebar-overlay show" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="sidebar-overlay show" aria-hidden="true" onClick={() => setSidebarOpen(false)} />}
 
       <main className="page-main">
         <div style={{ position: 'sticky', top: 0, zIndex: 30, background: 'rgba(246,250,254,0.88)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--surface-high)', padding: '0 28px', height: '64px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <button className="btn-icon" onClick={() => setSidebarOpen(!sidebarOpen)} style={{ display: 'none' }} id="sidebar-toggle-admin"><Menu size={20} /></button>
+          <button type="button" className="btn-icon" onClick={() => setSidebarOpen(!sidebarOpen)} style={{ display: 'none' }} id="sidebar-toggle-admin"><Menu size={20} /></button>
           <h2 style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '18px' }}>
             {NAV.find(n => n.id === active)?.label || 'Dashboard'}
           </h2>

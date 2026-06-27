@@ -8,7 +8,7 @@ const TIME_SLOTS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '14:00
 
 export default function BookAppointment() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const loc = useLocation();
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -23,7 +23,7 @@ export default function BookAppointment() {
   });
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
+    const params = new URLSearchParams(loc.search);
     const doctorId = params.get('doctorId');
     if (doctorId) {
       setForm(f => ({ ...f, doctorId }));
@@ -36,7 +36,7 @@ export default function BookAppointment() {
       })
       .catch(() => toast.error('Failed to load doctors'))
       .finally(() => setLoading(false));
-  }, [location.search]);
+  }, [loc.search]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ export default function BookAppointment() {
         time: form.time,
         type: form.type,
         reason: form.reason,
-        symptoms: form.symptoms.split(',').map(s => s.trim()).filter(Boolean)
+        symptoms: form.symptoms.split(',').flatMap(s => { const t = s.trim(); return t ? [t] : []; })
       });
       if (res.success) {
         toast.success('Appointment booked successfully!');

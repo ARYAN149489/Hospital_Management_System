@@ -66,7 +66,7 @@ export default function FindDoctors({ onBook }) {
                 <div style={{ display: 'flex', gap: '14px', marginBottom: '16px' }}>
                   <div className="avatar avatar-lg avatar-gradient">{initials}</div>
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--on-surface)', marginBottom: '4px' }}>{name}</p>
+                    <p className="doctor-card-name">{name}</p>
                     <p style={{ fontSize: '13px', color: 'var(--secondary)', fontWeight: 600, marginBottom: '8px' }}>{doctor.specialization || 'General'}</p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <Star size={13} color="#f59e0b" fill="#f59e0b" />
@@ -89,10 +89,10 @@ export default function FindDoctors({ onBook }) {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--primary)' }}>₹{fee}</span>
+                    <span className="doctor-card-fee">₹{fee}</span>
                     <span style={{ fontSize: '12px', color: 'var(--outline)', marginLeft: '4px' }}>/ visit</span>
                   </div>
-                  <button onClick={() => navigate(`?section=book-appointment&doctorId=${doctor._id}`)} className="btn btn-primary btn-sm" style={{ border: 'none', cursor: 'pointer' }}>
+                  <button type="button" onClick={() => navigate(`?section=book-appointment&doctorId=${doctor._id}`)} className="btn btn-primary btn-sm" style={{ border: 'none', cursor: 'pointer' }}>
                     Book <ChevronRight size={16} />
                   </button>
                 </div>

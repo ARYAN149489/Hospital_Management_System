@@ -1,183 +1,148 @@
 <div align="center">
 
-# 🏥 MediCare Plus
+<img src="https://img.shields.io/badge/MediCare_Plus-Hospital_Management_System-0ea5e9?style=for-the-badge&labelColor=0f172a" alt="MediCare Plus" />
 
-### Hospital Management System
+<br /><br />
 
-![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=for-the-badge&logo=node.js&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Google](https://img.shields.io/badge/Google_OAuth-4285F4?style=for-the-badge&logo=google&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+[![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
+[![Node.js](https://img.shields.io/badge/Node.js_18+-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://mongodb.com)
+[![AWS](https://img.shields.io/badge/AWS-Deployed-FF9900?style=flat-square&logo=amazonaws&logoColor=white)](https://aws.amazon.com)
+[![Gemini AI](https://img.shields.io/badge/Gemini_AI-8E75B2?style=flat-square&logo=googlegemini&logoColor=white)](https://ai.google.dev)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-A full-stack healthcare management platform featuring **role-based dashboards**, **Google OAuth**, **AI-powered chatbot**, **real-time notifications**, **digital prescriptions with PDF export**, and **lab test management** — built with the MERN stack.
+<br />
 
-[Features](#-key-features) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [Architecture](#-architecture)
+**A production-grade, full-stack Hospital Management System** built on the MERN stack and deployed on AWS — with role-based portals for Patients, Doctors, and Admins, real-time notifications, AI health assistant, and digital prescription management.
+
+**[🔴 Live Demo](https://main.d7l75khae1g6o.amplifyapp.com)** · **[GitHub](https://github.com/ARYAN149489/Hospital_Management_System)**
 
 </div>
 
 ---
 
-## 📌 Key Features
+## ✨ Key Features
 
-<table>
-<tr>
-<td width="33%">
+| 🧑‍💼 Patient Portal | 👨‍⚕️ Doctor Dashboard | 🛡️ Admin Panel |
+|---|---|---|
+| Google OAuth & JWT login | Admin-verified onboarding | System-wide analytics (Recharts) |
+| Search & filter doctors | Manage granular weekly availability | Full doctor approval workflow |
+| Book / reschedule appointments | Write digital prescriptions + vitals | Lab test result upload & tracking |
+| Download prescriptions (PDF) | View full patient history | Leave approval & user management |
+| Book lab tests, view results | Apply for leaves | Department CRUD |
+| AI health chatbot (Gemini) | Consultation analytics | Appointment oversight |
 
-### 🧑‍💼 Patient Portal
-- Book appointments with doctors
-- AI chatbot for health queries
-- View & download prescriptions (PDF)
-- Book lab tests & download reports
-- Real-time notification center
-- Google OAuth sign-in
-
-</td>
-<td width="33%">
-
-### 👨‍⚕️ Doctor Dashboard
-- Manage appointments & schedule
-- Create digital prescriptions
-- View patient history
-- Apply & track leaves
-- Performance analytics
-
-</td>
-<td width="33%">
-
-### 🛡️ Admin Panel
-- System-wide analytics dashboard
-- User & department management
-- Upload lab test reports
-- Leave approval workflow
-- Appointment oversight
-
-</td>
-</tr>
-</table>
-
-### 🔐 Security & Infrastructure
-- **JWT Authentication** with Google OAuth
-- **Role-based access control** (Patient / Doctor / Admin)
-- **Email notifications** via Nodemailer (Gmail SMTP)
-- **File uploads** with Multer (local disk storage)
-- **API security** — Helmet, rate-limiting, XSS protection, mongo sanitization
+### 🔐 Security Highlights
+`JWT dual-token (access + refresh)` · `bcryptjs password hashing` · `Helmet.js (14 headers)` · `express-mongo-sanitize` · `RBAC middleware` · `express-rate-limit`
 
 ---
 
 ## 🛠 Tech Stack
 
-| Layer | Technologies |
-|-------|-------------|
-| **Frontend** | React 19, Vite, React Router v7, Recharts, Lucide Icons, Axios |
-| **Backend** | Node.js, Express.js, Multer |
-| **Database** | MongoDB with Mongoose ODM |
-| **Auth** | JWT, Google OAuth (`@react-oauth/google`) |
-| **AI** | Google Gemini AI (chatbot) |
-| **Email** | Nodemailer (Gmail SMTP) |
-| **Security** | Helmet, bcryptjs, express-validator, rate-limiter, mongo-sanitize |
+**Backend:** Node.js · Express.js · MongoDB + Mongoose · JWT · Google Gemini AI · Nodemailer · Multer
+
+**Frontend:** React 19 · Vite · React Router v7 · Axios · Recharts · React Context API
+
+**Cloud (AWS):** EC2 (Ubuntu + PM2 + Nginx reverse proxy + Certbot SSL) · AWS Amplify (CI/CD from GitHub) · MongoDB Atlas
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites
-
-- **Node.js** ≥ 18 &nbsp;·&nbsp; **MongoDB** ≥ 6 &nbsp;·&nbsp; **npm** ≥ 9
-
-### Installation
-
 ```bash
-# Clone the repository
+# 1. Clone
 git clone https://github.com/ARYAN149489/Hospital_Management_System.git
-cd Hospital_Management_System
-```
+cd Hospital_Management_System/hospital_management
 
-**Backend**
-```bash
-cd backend
-npm install
-cp .env.example .env     # Add your MongoDB URI, JWT secret, API keys
-npm run seed             # Seed admin account
-npm start                # Runs on http://localhost:5000
-```
+# 2. Backend
+cd backend && npm install
+cp .env.example .env   # fill in your values
+npm run seed           # creates the initial admin account
+npm run dev            # → http://localhost:5002
 
-**Frontend**
-```bash
-cd frontend
-npm install
-npm run dev              # Runs on http://localhost:5173
+# 3. Frontend (new terminal)
+cd ../frontend && npm install
+npm run dev            # → http://localhost:5173
 ```
 
 ### Environment Variables
 
 <details>
-<summary>Backend <code>.env</code></summary>
+<summary><strong>backend/.env</strong></summary>
 
 ```env
-PORT=5000
+PORT=5002
+NODE_ENV=development
 MONGODB_URI=mongodb://localhost:27017/medicare-plus
-JWT_SECRET=your_jwt_secret
+JWT_SECRET=your_jwt_secret_min_32_chars
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_SECRET=your_refresh_secret
+JWT_REFRESH_EXPIRES_IN=7d
+FRONTEND_URL=http://localhost:5173
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
 GEMINI_API_KEY=your_gemini_api_key
 EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
-EMAIL_USER=your_email
-EMAIL_PASSWORD=your_app_password
+EMAIL_USER=your_gmail@gmail.com
+EMAIL_PASSWORD=your_gmail_app_password
 ```
-
 </details>
 
 <details>
-<summary>Frontend <code>.env</code></summary>
+<summary><strong>frontend/.env</strong></summary>
 
 ```env
-VITE_API_URL=http://localhost:5000/api
-VITE_GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
+VITE_API_URL=http://localhost:5002/api
+VITE_GOOGLE_CLIENT_ID=your_google_client_id
 ```
-
 </details>
 
 ---
 
-## 📐 Architecture
+## ☁️ AWS Deployment Architecture
 
 ```
-Hospital_Management_System/
-├── backend/
-│   ├── config/          # Database configuration
-│   ├── controllers/     # Route handlers (14 controllers)
-│   ├── middleware/       # Auth, validation, error handling, uploads
-│   ├── models/          # Mongoose schemas (12 models)
-│   ├── routes/          # API route definitions (14 modules)
-│   ├── services/        # Business logic layer
-│   ├── utils/           # Helpers, email, JWT utilities
-│   ├── scripts/         # DB seeders & setup scripts
-│   └── server.js        # Entry point
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/  # Reusable UI (Navbar, Footer, Notifications)
-│   │   ├── context/     # Auth context provider
-│   │   ├── pages/       # 29 page components
-│   │   │   ├── admin/   # 7 admin pages
-│   │   │   ├── doctor/  # 8 doctor pages
-│   │   │   └── patient/ # 10 patient pages
-│   │   └── services/    # API service layer
-│   └── index.html
-│
-└── README.md
+GitHub Push → AWS Amplify (CI/CD) → React Frontend (SPA)
+                                          │
+                              HTTPS via custom domain
+                                          │
+                    EC2 t2.micro (Ubuntu + Nginx + PM2)
+                         Node.js / Express Backend
+                                    │
+                          MongoDB Atlas (Cloud DB)
 ```
+
+**Backend:** EC2 → Nginx reverse proxy → PM2 daemon → Express app → Let's Encrypt SSL (Certbot)
+
+**Frontend:** AWS Amplify with GitHub-connected CI/CD, custom SPA rewrite rules for React Router
 
 ---
 
-## 🔮 Roadmap
+## 📡 API Overview
 
-- [ ] Payment gateway integration (Razorpay/Stripe)
-- [ ] Video consultations via WebRTC
-- [ ] Mobile app with React Native
-- [ ] Real-time updates with Socket.io
-- [ ] Advanced AI diagnostics & drug interaction warnings
-- [ ] Multi-language support (i18n)
+All responses follow a consistent structure: `{ success, message, data }`
+
+| Prefix | Access | Description |
+|---|---|---|
+| `/auth/*` | Public | Register, login, Google OAuth, token refresh |
+| `/patients/*` | Patient | Dashboard, prescriptions, lab tests, records |
+| `/doctors/*` | Public / Doctor | Search doctors, availability, schedule, prescriptions |
+| `/appointments/*` | Private | Book, cancel, reschedule, rate |
+| `/admin/*` | Admin | Stats, doctor approval, leave management, departments |
+| `/chatbot/*` | Patient | Gemini AI health assistant |
+| `/notifications/*` | Private | In-app notification center |
+
+---
+
+## 🧪 Testing
+
+A **37-step Java Selenium E2E test suite** runs against the live production URL, covering the full Patient → Doctor → Admin workflow:
+
+```bash
+cd selenium-tests
+./run_e2e_tests.sh
+```
 
 ---
 
@@ -192,9 +157,4 @@ Hospital_Management_System/
 
 <div align="center">
 
-**⭐ If you found this project useful, consider giving it a star!**
-
-![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red?style=flat-square)
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)
-
-</div>
+Made with ❤️ by Aryan Kansal

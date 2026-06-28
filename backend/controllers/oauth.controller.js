@@ -78,7 +78,9 @@ exports.googleAuth = async (req, res) => {
         role: 'patient',
         profilePicture: picture,
         isEmailVerified: true,
-        phone: `GOOGLE_${Date.now()}` // Temporary phone number
+        phone: '0000000000',         // Placeholder — user updates from profile
+        gender: 'other',             // Placeholder — user updates from profile
+        dateOfBirth: new Date('2000-01-01') // Placeholder — user updates from profile
       });
 
       // Create patient profile

@@ -189,8 +189,16 @@ patientSchema.virtual('medicalRecords', {
 // Generate unique patient ID
 patientSchema.pre('save', async function(next) {
   if (this.isNew && !this.patientId) {
-    const count = await mongoose.model('Patient').countDocuments();
-    this.patientId = `PAT${String(count + 1).padStart(6, '0')}`;
+    const lastPatient = await mongoose.model('Patient')
+      .findOne({}, { patientId: 1 })
+      .sort({ patientId: -1 });
+    
+    let nextNum = 1;
+    if (lastPatient && lastPatient.patientId) {
+      const currentNum = parseInt(lastPatient.patientId.replace('PAT', ''), 10);
+      nextNum = currentNum + 1;
+    }
+    this.patientId = `PAT${String(nextNum).padStart(6, '0')}`;
   }
   next();
 });

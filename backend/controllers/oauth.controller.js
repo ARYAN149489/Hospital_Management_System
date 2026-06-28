@@ -47,6 +47,17 @@ exports.googleAuth = async (req, res) => {
         });
       }
 
+      // Safety check: ensure Patient profile exists (may be missing from a prior failed attempt)
+      if (user.role === 'patient') {
+        const existingPatient = await Patient.findOne({ user: user._id });
+        if (!existingPatient) {
+          await Patient.create({
+            user: user._id,
+            emergencyContact: { name: '', relationship: '', phone: '' }
+          });
+        }
+      }
+
       // Generate tokens
       const { accessToken, refreshToken } = generateTokens(user._id, user.role);
       user.refreshToken = refreshToken;
